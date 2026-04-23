@@ -155,7 +155,9 @@ function MainAnalyzer() {
       
       const reader = new FileReader();
       reader.onload = () => {
-        setPreview(reader.result as string);
+        const previewUrl = reader.result as string;
+        setPreview(previewUrl);
+        handleProcess(previewUrl, selectedFile.type);
       };
       reader.readAsDataURL(selectedFile);
     }
@@ -170,13 +172,16 @@ function MainAnalyzer() {
     multiple: false
   });
 
-  const handleProcess = async () => {
-    if (!preview || !file) return;
+  const handleProcess = async (directPreview?: string, directType?: string) => {
+    const previewToUse = directPreview || preview;
+    const typeToUse = directType || file?.type;
+
+    if (!previewToUse || !typeToUse) return;
 
     setIsProcessing(true);
     setError(null);
     try {
-      const data = await processInvoice(preview, file.type);
+      const data = await processInvoice(previewToUse, typeToUse);
       setResult(data);
       confetti({
         particleCount: 100,
@@ -348,27 +353,11 @@ function MainAnalyzer() {
                </div>
                
                <h2 className={cn("text-2xl font-black tracking-tight transition-colors", file ? "text-slate-800" : "text-slate-400")}>
-                 {file ? "Ready to Process" : "Waiting for Data"}
+                 {file ? "Analyzing Document..." : "Waiting for Data"}
                </h2>
                <p className="text-sm text-slate-400 max-w-xs mt-2 mx-auto leading-relaxed">
-                 {file ? "We've captured your document. Click below to let Gemini extract the data." : "Once you upload and process an invoice, the extracted data will appear here."}
+                 {file ? "Our AI is currently extracting data from your document. This will only take a moment." : "Once you upload an invoice, the extracted data will appear here automatically."}
                </p>
-
-               {file && !isProcessing && (
-                 <motion.button 
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  whileHover={{ scale: 1.05, backgroundColor: 'var(--color-brand-dark)' }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={handleProcess}
-                  className="mt-8 px-10 py-4 bg-brand text-white rounded-2xl font-bold shadow-2xl shadow-indigo-200 flex items-center gap-3 group relative overflow-hidden"
-                 >
-                   <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:animate-[shimmer_2s_infinite] pointer-events-none" />
-                   <Zap className="w-5 h-5 fill-amber-300 text-amber-300 group-hover:scale-125 transition-transform" />
-                   <span className="relative">Process Invoice Now</span>
-                   <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                 </motion.button>
-               )}
             </div>
           ) : (
             <AnimatePresence mode="wait">

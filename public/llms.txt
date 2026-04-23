@@ -1,0 +1,25 @@
+# Invoicify.ai
+
+AI-powered invoice extraction and analysis tool using Google Gemini 1.5.
+
+## Core Features
+- Extract vendor name, invoice number, date, and currency.
+- Detailed line item extraction (Description, Quantity, Price).
+- Automated calculation of subtotal, tax, and total amount.
+- AI-generated summary of document contents.
+- Support for PDF, PNG, JPEG, and WebP formats.
+- Export to JSON and CSV formats.
+
+## Keywords
+AI Invoice Processor, Automated Invoice Extraction, Gemini AI, OCR, Accounts Payable Automation, Invoice Parser, Receipt Extraction.
+
+## Technical Details
+- Built with React 19, Vite, and Tailwind CSS.
+- Powered by @google/genai (Gemini 1.5 Pro/Flash).
+- Privacy-first: Real-time processing without persistent storage.
+- Open Source (Apache 2.0).
+
+## Links
+- Website: https://invoice.brilworks.com
+- GitHub: https://github.com/drdhavaltrivedi/invoicify-ai
+- Developer: https://www.drdhaval.in

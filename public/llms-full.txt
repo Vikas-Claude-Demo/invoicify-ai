@@ -1,0 +1,35 @@
+# Invoicify.ai - Full Technical Documentation for AI
+
+## Overview
+Invoicify.ai is an intelligent invoice processing web application designed to eliminate manual data entry. It leverages the multimodal capabilities of Google Gemini 1.5 (Pro and Flash models) to parse complex financial documents with high accuracy.
+
+## Capabilities
+1. **Multimodal Input**: Processes both vector-based PDFs and raster images (PNG, JPG, WebP).
+2. **Entity Extraction**: Identifies Merchant details (name, address, tax ID), Invoice details (number, date, due date), and Totals (subtotal, tax, discounts, grand total).
+3. **Line Item Decomposition**: Extracts individual items, descriptions, quantities, unit prices, and line totals into a structured array.
+4. **Contextual Analysis**: Provides an AI-generated summary that explains the nature of the invoice and any anomalies detected.
+5. **Data Export**: Serializes extracted data into standardized JSON and CSV formats for downstream integration.
+
+## SEO & Discovery Keywords
+- AI Invoice Automation
+- Google Gemini Document Extraction
+- Intelligent Document Processing (IDP)
+- OCR to JSON Conversion
+- Automated Accounts Payable
+- Receipt Digitization AI
+- FinTech AI Tools
+
+## Developer & Team
+- Lead Developer: [Dr. Dhaval Trivedi](https://drdhaval.in)
+- Development Team: [Brilworks](https://brilworks.com)
+- Repository: https://github.com/drdhavaltrivedi/invoicify-ai
+
+## Technical Stack
+- Framework: React 19
+- Runtime: Node.js / Vite
+- Styling: Vanilla CSS / Tailwind 4
+- AI Integration: @google/genai SDK
+- Client-side logic: TypeScript
+
+## Privacy Policy
+Invoicify.ai prioritizes user privacy. All document processing is done via transient API calls to Google Gemini. No user files or extracted data are stored on Invoicify.ai servers.

@@ -218,17 +218,17 @@ function MainAnalyzer() {
             {preview ? (
               <div className="relative w-full aspect-[3/4] max-h-[600px] rounded-2xl overflow-hidden shadow-xl border border-slate-100">
                 {file?.type === 'application/pdf' ? (
-                  <div className="w-full h-full bg-slate-50 flex flex-col items-center justify-center gap-4">
-                      <FileText className="w-16 h-16 text-slate-300" />
-                      <span className="text-sm font-bold text-slate-600 max-w-[200px] truncate">{file.name}</span>
-                      <span className="text-[10px] uppercase font-bold tracking-widest text-slate-400">PDF Preview Unavailable</span>
-                  </div>
+                  <iframe 
+                    src={`${preview}#toolbar=0&navpanes=0&scrollbar=0`} 
+                    className="w-full h-full border-none pointer-events-none" 
+                    title="PDF Preview"
+                  />
                 ) : (
                   <img src={preview} alt="Preview" className="w-full h-full object-contain bg-slate-50" />
                 )}
                 <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
                   <p className="text-white font-bold flex items-center gap-2">
-                    <RefreshCcw className="w-5 h-5" /> Change File
+                    <RefreshCcw className="w-5 h-5" /> Change Document
                   </p>
                 </div>
               </div>
@@ -339,19 +339,35 @@ function MainAnalyzer() {
         {/* Results Display */}
         <div className="flex-1 p-4 lg:p-8">
           {!result ? (
-            <div className="h-full flex flex-col items-center justify-center text-center opacity-60">
-               <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-4">
-                  <Search className="w-8 h-8 text-slate-300" />
+            <div className={cn("h-full flex flex-col items-center justify-center text-center transition-opacity duration-300", !file && "opacity-60")}>
+               <div className={cn(
+                 "w-20 h-20 rounded-3xl flex items-center justify-center mb-6 transition-all duration-500",
+                 file ? "bg-indigo-600 shadow-xl shadow-indigo-200 scale-110" : "bg-slate-50"
+               )}>
+                  <Search className={cn("w-10 h-10 transition-colors", file ? "text-white" : "text-slate-300")} />
                </div>
-               <h2 className="text-xl font-bold text-slate-400">Waiting for Data</h2>
-               <p className="text-sm text-slate-400 max-w-xs mt-1 mx-auto">Once you upload and process an invoice, the extracted data will appear here.</p>
+               
+               <h2 className={cn("text-2xl font-black tracking-tight transition-colors", file ? "text-slate-800" : "text-slate-400")}>
+                 {file ? "Ready to Process" : "Waiting for Data"}
+               </h2>
+               <p className="text-sm text-slate-400 max-w-xs mt-2 mx-auto leading-relaxed">
+                 {file ? "We've captured your document. Click below to let Gemini extract the data." : "Once you upload and process an invoice, the extracted data will appear here."}
+               </p>
+
                {file && !isProcessing && (
-                 <button 
+                 <motion.button 
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  whileHover={{ scale: 1.05, backgroundColor: 'var(--color-brand-dark)' }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={handleProcess}
-                  className="mt-6 px-8 py-3 bg-brand text-white rounded-2xl font-bold shadow-lg"
+                  className="mt-8 px-10 py-4 bg-brand text-white rounded-2xl font-bold shadow-2xl shadow-indigo-200 flex items-center gap-3 group relative overflow-hidden"
                  >
-                   Process Invoice Now
-                 </button>
+                   <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:animate-[shimmer_2s_infinite] pointer-events-none" />
+                   <Zap className="w-5 h-5 fill-amber-300 text-amber-300 group-hover:scale-125 transition-transform" />
+                   <span className="relative">Process Invoice Now</span>
+                   <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                 </motion.button>
                )}
             </div>
           ) : (
